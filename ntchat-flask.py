@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
+#正雨 @ 1695960757
+
 from flask import Flask,request
 from functools import wraps
 from mgr import ClientManager
 from down import get_local_path
 from exception import MediaNotExistsError, ClientNotExists
-import ntchat
+import os
 import json,threading
+os.environ['NTCHAT_LOG'] = "ERROR"
+import ntchat
+
 
 def response_json(status=500, data=None, msg=""):
     return {
@@ -46,7 +51,10 @@ client_mgr.callback_url = "http://127.0.0.1:8005/callback"
 def on_callback():
     data = request.stream.read()
     data = json.loads(data.decode('utf-8'))
-    #print(data)
+
+    if data["message"]["type"] == 11025:
+        print("登录成功！")
+        print(data)
 
 
     return ''
@@ -66,7 +74,7 @@ async def client_open():
     datax = request.get_json()
     client = client_mgr.get_client(datax["guid"])
     ret = client.open(datax["smart"],datax["show_login_qrcode"])
-
+    # 当show_login_qrcode=True时, 打开微信时会显示二维码界面
     if datax["show_login_qrcode"] :
         client.qrcode_event = threading.Event()
         client.qrcode_event.wait(timeout=10)
@@ -129,6 +137,9 @@ async def get_contact_detail():
     datax = request.get_json()
     data = client_mgr.get_client(datax["guid"]).get_contact_detail(datax["wxid"])
     return response_json(200, data)
+
+
+
 
 #获取关注公众号列表
 @app.route("/publics/get_publics",methods=["GET","POST"])
@@ -271,6 +282,7 @@ async def send_image():
     if file_path is None:
         raise MediaNotExistsError()
     ret = client_mgr.get_client(datax["guid"]).send_image(datax["to_wxid"], file_path)
+
     return response_json(200 if ret else 500)
 
 #发送文件
@@ -329,6 +341,8 @@ async def send_pat():
     datax = request.get_json()
     data = client_mgr.get_client(datax["guid"]).send_pat(datax["room_wxid"], datax["patted_wxid"])
     return response_json(200, data)
+
+
 
 
 if __name__ == '__main__':

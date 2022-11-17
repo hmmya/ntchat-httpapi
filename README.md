@@ -1,4 +1,4 @@
+Ö÷ÒªÊÇÈý¸öÎÄ¼þ£º
 
-
-ç”¨cmdè¿è¡Œntchat-flask.pyï¼Œè¿è¡Œä¹‹åŽå¯åŠ¨HTTPæœåŠ¡ï¼Œå†™å…¶ä»–ä»£ç è°ƒç”¨ã€‚
+ÓÃcmdÔËÐÐntchat-flask.py£¬ÔËÐÐÖ®ºóÆô¶¯HTTP·þÎñ£¬Ð´ÆäËû´úÂëµ÷ÓÃ¡£
 

@@ -1,3 +1,4 @@
+#正雨 @ 1695960757
 from typing import Optional, List, Any, Union, Dict
 from pydantic import BaseModel
 
@@ -87,6 +88,10 @@ class GetRoomMembersReqModel(ClientReqModel):
     room_wxid: str
 
 
+class GetRoomNameReqModel(ClientReqModel):
+    room_wxid: str
+
+
 class CreateRoomReqModel(ClientReqModel):
     member_list: List[str]
 
@@ -135,3 +140,17 @@ class SendLinkCardReqModel(SendMsgReqModel):
 class SendMediaReqModel(SendMsgReqModel):
     file_path: Optional[str] = ""
     url: Optional[str] = ""
+
+
+class SendXmlReqModel(SendMsgReqModel):
+    xml: str
+
+
+class SendPatReqModel(ClientReqModel):
+    room_wxid: str
+    patted_wxid: str
+
+
+class ModifyFriendRemarkReqModel(ClientReqModel):
+    wxid: str
+    remark: str
